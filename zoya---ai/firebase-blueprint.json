@@ -1,0 +1,158 @@
+{
+  "entities": {
+    "Session": {
+      "title": "Session",
+      "description": "A chat session created by a user",
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique session ID"
+        },
+        "userId": {
+          "type": "string",
+          "description": "The UID of the user who owns this session"
+        },
+        "title": {
+          "type": "string",
+          "description": "A brief summary or first message of the session"
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "When the session was created"
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "When the session was last updated"
+        }
+      },
+      "required": ["id", "userId", "title", "createdAt", "updatedAt"]
+    },
+    "Message": {
+      "title": "Message",
+      "description": "An individual chat message in a session",
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique message ID"
+        },
+        "sender": {
+          "type": "string",
+          "enum": ["user", "zoya"],
+          "description": "Who sent the message"
+        },
+        "text": {
+          "type": "string",
+          "description": "The text content of the message"
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "When the message was sent"
+        }
+      },
+      "required": ["id", "sender", "text", "createdAt"]
+    },
+    "UserProfile": {
+      "title": "UserProfile",
+      "description": "User profile with name and age validation",
+      "type": "object",
+      "properties": {
+        "uid": {
+          "type": "string",
+          "description": "Unique user ID (matches request.auth.uid)"
+        },
+        "name": {
+          "type": "string",
+          "description": "User's display name"
+        },
+        "age": {
+          "type": "integer",
+          "description": "User's age (must be >= 16)"
+        },
+        "email": {
+          "type": "string",
+          "description": "User's email"
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "When the profile was created"
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "When the profile was last updated"
+        }
+      },
+      "required": ["uid", "name", "age", "email", "createdAt", "updatedAt"]
+    },
+    "Note": {
+      "title": "Note",
+      "description": "A notebook text note created by the user",
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique note ID"
+        },
+        "userId": {
+          "type": "string",
+          "description": "The UID of the user who owns this note"
+        },
+        "title": {
+          "type": "string",
+          "description": "Title of the note"
+        },
+        "content": {
+          "type": "string",
+          "description": "Text content of the note"
+        },
+        "category": {
+          "type": "string",
+          "description": "The category tag of the note"
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "When the note was created"
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "When the note was last updated"
+        }
+      },
+      "required": ["id", "userId", "title", "content", "category", "createdAt", "updatedAt"]
+    }
+  },
+  "firestore": {
+    "/users/{userId}": {
+      "schema": {
+        "$ref": "#/entities/UserProfile"
+      },
+      "description": "User profile records containing personal details"
+    },
+    "/sessions/{sessionId}": {
+      "schema": {
+        "$ref": "#/entities/Session"
+      },
+      "description": "User chat sessions"
+    },
+    "/sessions/{sessionId}/messages/{messageId}": {
+      "schema": {
+        "$ref": "#/entities/Message"
+      },
+      "description": "Messages belonging to a chat session"
+    },
+    "/notes/{noteId}": {
+      "schema": {
+        "$ref": "#/entities/Note"
+      },
+      "description": "User text notes/documents in Notepad"
+    }
+  }
+}
